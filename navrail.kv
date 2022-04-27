@@ -1,0 +1,458 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import Window kivy.core.window.Window
+
+#:include ./libs/dialog_change_theme.kv
+#:include ./libs/custom_list_personaldaten.kv
+
+
+<MinionContent>
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+
+    MDGridLayout:
+        adaptive_height: True
+        cols: 1
+        
+        MDRaisedButton:
+            id: btn_urlaub
+            text: "Urlaub"
+            on_release: 
+                print("Click! \nself: ", self)
+                print("exp.panel.panel_cls.text: ", root.parent.panel_cls.text)
+
+                #app.show_data_dialog("Urlaub", root.parent.panel_cls.text) #"Petra")
+        
+        
+                
+    MDGridLayout:
+        adaptive_height: True
+        cols: 1
+        
+        MDRaisedButton:
+            id: btn_wunschfrei
+            text: "Wunschfrei"
+            on_release: print("Click!")
+
+    MDGridLayout:
+        adaptive_height: True
+        cols: 1
+        
+        MDRaisedButton:
+            id: btn_wunschdienst
+            text: "Wunschdienst"
+            on_release: print("Click!")
+
+    MDGridLayout:
+        adaptive_height: True
+        cols: 1
+        
+        MDRaisedButton:
+            id: btn_Feiertagsdienste
+            text: "Feiertagsdienste"
+            on_release: print("Click!")
+
+
+<MinionContent_older>
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+
+    OneLineListItem:
+        text: "Urlaub"
+        on_release: 
+            print("Click! \n", self)
+            print("exp.panel.panel_cls.text: ", root.parent.panel_cls.text)
+
+            #app.show_data_dialog("Urlaub", root.parent.panel_cls.text) #"Petra")
+        
+    OneLineListItem:
+        text: "Wunschfrei"
+        on_release: print("Click!")
+
+    OneLineListItem:
+        text: "Wunschdienst"
+        on_release: print("Click!")
+
+    OneLineListItem:
+        text: "Feiertagsdienste"
+        on_release: print("Click!")
+        
+
+<SubContent>
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+
+    ScrollView:
+        #size_hint_y: None
+        #height: Window.height * 0.8
+
+
+
+<MyDienstplanScreen>
+    name: 'dienstplanscreen'
+
+    on_enter:
+        #print(f"app root: {app.root}; ids: {app.root.ids}")
+        #print(f"root: {root}; ids: {root.ids}")
+    
+    BoxLayout:
+        #valign: "top"
+        orientation: 'vertical'
+        #pos_hint: {"top": .9, "left": .8}
+        padding: "20dp"
+        spacing: "5dp" #["5dp", "5dp"]
+		
+        MDLabel:
+            text: "Erstelle einen Dienstplan!"
+
+        MDGridLayout:
+            adaptive_height: True
+            cols: 2
+            #padding: "20dp"
+            spacing: "5dp" #["5dp", "5dp"]
+
+
+            MDRaisedButton:
+                id: btn_date
+                text: "Zeitraum"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    root.show_date_picker()
+
+
+            MDRaisedButton:
+                id: btn_settings
+                text: "Daten aktuell?"
+                #size_hint: 0.5, 1
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    app.root.ids.screen_manager.current = 'personal'
+
+
+            MDRaisedButton:
+                id: btn_start
+                text: "Erstelle Plan"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    root.start_planning()
+
+
+        ScrollView:
+            size_hint_y: None
+            #height: "400dp"
+            height: Window.height * 0.6
+
+            MDList:
+                id: container
+                #padding: "20dp"
+                
+                
+        MDGridLayout:
+            adaptive_height: True
+            cols: 3
+            #padding: "20dp"
+            spacing: "5dp" #["5dp", "5dp"]
+
+
+            MDRaisedButton:
+                id: btn_log
+                text: "Logfile"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                #on_release:
+                    
+
+
+            MDRaisedButton:
+                id: btn_sendmail
+                text: "als Mail verteilen"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                #on_release:
+                    
+
+
+            MDRaisedButton:
+                id: btn_clear
+                text: "clear"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                #on_release:
+                    
+
+<FeiertagEditScreen>
+	name: 'Feiertag_edit'
+	on_enter: root.fill_feiertage()
+
+    MDBoxLayout:
+        orientation: "vertical"
+    
+        MDLabel:
+            text: "[b]Feiertagsdaten![/b]"
+            markup: True
+                        
+        ScrollView:
+            size_hint_y: None
+            #height: "400dp"
+            height: Window.height * 0.8
+
+            MDList:
+                id: feiertags_container
+                #padding: "20dp"
+
+        MDGridLayout:
+            adaptive_height: True
+            cols: 2
+            #padding: "20dp"
+            spacing: "5dp" #["5dp", "5dp"]
+
+            MDRaisedButton:
+                id: btn_fill_ft
+                text: u"N\u00e4chstes Jahr Hinzuf\u00fcgen"
+                spacing: "15dp"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    root.add_next_year()
+
+
+            MDRaisedButton:
+                id: btn_rem_old_ft
+                text: "Clean up"
+                spacing: "15dp"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    root.cleanup_olds()
+
+            MDRaisedButton:
+                id: btn_add_ft
+                text: u"Feiertag Hinzuf\u00fcgen"
+                spacing: "5dp"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    #root.add_feiertag()
+
+            MDRaisedButton:
+                id: btn_del_ft
+                text: u"Feiertag entfernen"
+                spacing: "5dp"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
+                on_release:
+                    #root.del_feiertag()
+
+
+<MyPersonalScreen>
+	name: 'personal'
+    #on_enter: root.update_minion_cards()
+
+    MDBoxLayout:
+        orientation: "vertical"
+    
+        MDLabel:
+            adaptive_height: True
+            text: u"\u00c4ndere die Personaldaten!"
+
+
+        ScrollView:
+            #size_hint_y: None
+            #height: Window.height * 0.8
+            
+            MDGridLayout:
+                cols: 1
+                adaptive_height: True
+                id: minion_basegrid ######################
+                spacing: "25dp"
+                padding: "40dp"
+
+
+  
+     
+
+
+<MySettingsScreen>
+    name: 'einstellungen'
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDLabel:
+            text: "Einstellungen anpassen!"
+
+        ScrollView:
+            size_hint_y: None
+            #height: "400dp"
+            height: Window.height * 0.6
+
+            MDGridLayout:
+                adaptive_height: True
+                cols: 1
+                padding: "10dp"
+                spacing: "10dp"
+
+                MDBoxLayout:
+                    orientation: "vertical"
+                    adaptive_height: True
+                    padding: "5dp"
+                    spacing: "10dp"
+
+                    MDLabel:
+                        text: "Change Style"
+                        bold: True
+                        theme_text_color: "Primary"
+
+                    MDBoxLayout:
+                        size_hint: None, None
+                        adaptive_size: True
+                        spacing: "30dp"
+
+                        DPThemeStyleCheckbox:
+
+                        Label:
+                            text: "Light"
+                            color: app.theme_cls.text_color
+
+                        DPThemeStyleCheckbox:
+
+                        Label:
+                            text: "Dark"
+                            color: app.theme_cls.text_color
+
+                MDSeparator:
+
+                MDLabel:
+                    id: label_theme
+                    text: "Current theme: {}".format(app.theme_cls.primary_palette)
+                    bold: True
+                    theme_text_color: "Primary"
+                    adaptive_height: True
+
+
+                OneLineIconListItem:
+
+                    text: "Change Theme"
+                    #icon: "palette-outline"
+                    divider: None
+                    on_release: app.show_dialog_change_theme()
+
+                    IconLeftWidget:
+                        icon: "palette-outline"
+
+
+                MDSeparator:
+
+                MDLabel:
+                    id: label_theme
+                    text: "About Us"
+                    bold: True
+                    theme_text_color: "Primary"
+                    adaptive_height: True
+
+
+                OneLineIconListItem:
+                    
+                    text: "Developers"
+                    #icon: "dev-to"
+                    divider: None
+                    on_release: 
+                        print("Developers not yet implemented")
+                        #KitchenSinkDialogDev().open()
+
+                    IconLeftWidget:
+                        icon: "dev-to"
+
+
+                OneLineIconListItem:
+                    
+                    text: "License"
+                    #icon: "license"
+                    divider: None
+                    on_release: 
+                        print("License not yet implemented")
+                        #KitchenSinkDialogLicense().open()
+
+                    IconLeftWidget:
+                        icon: "license"
+
+                    
+                Widget:
+                    size_hint_y: None
+                    height: app.theme_cls.standard_increment
+
+
+        MDRaisedButton:
+            #id: btn_back2dplan
+            text: u"zur\u00fcck"
+            #pos_hint: {'center_x': .5, 'center_y': .5}
+            on_release:
+                app.root.ids.screen_manager.current = 'dienstplanscreen'
+
+
+<WEDienstPlaner>
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDToolbar:
+            title: "Wochenend-Dienstplaner"
+            md_bg_color: rail.md_bg_color
+            left_action_items: [["menu", lambda x: app.rail_open()]]
+
+        MDBoxLayout:
+
+            MDNavigationRail:
+                id: rail
+                md_bg_color: get_color_from_hex("#344954")
+                color_normal: get_color_from_hex("#718089")
+                color_active: get_color_from_hex("#f3ab44")
+                use_hover_behavior: True
+                hover_bg: 0, 0, 0, .2
+                use_resizeable: True
+
+                on_open:
+                    print("rail: ", rail.rail_state)
+                    visible: "Persistent"
+                on_close:
+                    print("rail: ", rail.rail_state)
+                    visible: "Unlabeled"
+
+
+
+                MDNavigationRailItem:
+                    icon: "calendar"
+                    text: "[size=25][b]Dienstplan[/b][/size]"
+                    on_release:
+                        app.root.ids.screen_manager.current = 'dienstplanscreen'
+
+                
+                MDNavigationRailItem:
+                    icon: "calendar-edit"
+                    text: "[size=25]Feiertage[/size]"
+                    on_release:
+                        app.root.ids.screen_manager.current = 'Feiertag_edit'
+                
+                
+                MDNavigationRailItem:
+                    icon: "code-json" #"calendar-account" #"account-cog"
+                    text: "[size=25]Personal[/size]"
+                    on_release:
+                        app.root.ids.screen_manager.current = 'personal'
+
+                MDNavigationRailItem:
+                    icon: "cog"
+                    text: "[size=25]Einstellungen[/size]"
+                    on_release:
+                        app.root.ids.screen_manager.current = 'einstellungen'
+
+            ScreenManager:
+                id: screen_manager
+
+                MyDienstplanScreen
+                    #name: 'dienstplanscreen'
+                
+                MyPersonalScreen
+	                #name: 'personal'
+
+                MySettingsScreen
+                    #name: 'einstellungen'
+                    
+                FeiertagEditScreen
+                    #name: 'Feiertag_edit'
+

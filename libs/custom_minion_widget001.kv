@@ -1,0 +1,40 @@
+<MinionData@MDBoxLayout>
+    orientation: "vertical"
+    
+
+    MDLabel:
+        id: minion_name
+        #text: "[size=42][b]Shaker[/b][/size]"
+        markup: True
+
+
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: True
+        #cols: 2
+        #padding: "20dp"
+        #spacing: "5dp" #["5dp", "5dp"]
+
+        
+        MDLabel:
+            text: "Urlaub"
+
+
+        ScrollView:
+        
+            MDList:
+                id: minion_urlaub_container
+
+
+    MDLabel:
+        text: "Wunschdienst"
+
+    MDTextField:
+        text: "@@@"
+
+
+    MDLabel:
+        text: "Wunschfrei"
+
+    MDTextField:
+        text: "@@@"

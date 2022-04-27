@@ -1,0 +1,58 @@
+
+
+<DatenListe>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    #height: "300dp"
+    adaptive_height: True
+
+    ScrollView:
+
+        MDList:
+            id: container
+
+# ----------------------
+
+<P_card>:
+    id: card
+    name_lbl: name_lbl
+
+    orientation: "vertical"
+    size_hint: .6, None
+    height: self.minimum_height
+    pos_hint: {"center_x": .5, "center_y": .5}
+
+        
+    MDBoxLayout:
+        id: box
+        size_hint_y: None
+        height: dp(150)
+
+        FitImage:
+            source: "./assets/emoji_ok-smiley.png"
+
+        MDLabel:
+            id: name_lbl
+            text: root.name_lbl #-->"[b]Katrin[/b]"
+            markup: True
+            font_size: "32dp"
+
+
+<pdatalistitem>
+    
+    IconRightWidget:
+        icon: "trash-can-outline"
+        on_release: print("Delete me!")
+
+
+<OneLineListItem_w_input>
+    on_release: print("Add data!")
+    #text centered?
+
+
+<ContentBox>:
+    orientation: "vertical"
+    padding: dp(10)
+    spacing: dp(10)
+    adaptive_height: True
